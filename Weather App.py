@@ -36,3 +36,30 @@ def get_weather(location):
         current_weather_url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric'
         # API endpoint for 5-day forecast
         forecast_url = f'http://api.openweathermap.org/data/2.5/forecast?q={location}&appid={api_key}&units=metric' 
+
+    # Make GET request to API
+        current_weather_response = requests.get(current_weather_url)
+        forecast_response = requests.get(forecast_url)
+    
+        # Parse JSON response
+        current_weather_data = json.loads(current_weather_response.text) # <-- convert JSON response to Python dictionary
+        forecast_data = json.loads(forecast_response.text) # <-- convert JSON response to Python dictionary
+        
+        # Extract current weather conditions
+        current_temp = current_weather_data['main']['temp'] # <-- extract temperature from dictionary
+        current_weather = current_weather_data['weather'][0]['description'] # <-- extract weather description from dictionary
+        humidity = current_weather_data['main']['humidity']
+        
+        # Extract forecast for next 5 days
+        forecast_list = forecast_data['list'] # <-- extract list of forecasts from dictionary
+
+        forecast = {} # <-- create empty dictionary to store forecast
+        for f in forecast_list: # <-- loop through list of forecasts
+            date = f['dt_txt'][:10] # <-- extract date from forecast
+            if date not in forecast: # <-- check if date is already in forecast dictionary
+                forecast[date] = { 
+                    'temp': f['main']['temp'],
+                    'weather': f['weather'][0]['description']
+                }
+        save_history(location, current_temp, current_weather, humidity) # <-- call save_to_history function to add location to history
+        return current_temp, current_weather, forecast, humidity # <-- return current weather conditions and 5-day forecast2n
