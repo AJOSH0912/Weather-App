@@ -63,3 +63,35 @@ def get_weather(location):
                 }
         save_history(location, current_temp, current_weather, humidity) # <-- call save_to_history function to add location to history
         return current_temp, current_weather, forecast, humidity # <-- return current weather conditions and 5-day forecast2n
+
+    except: #This is the except block, it will run if the try block fails
+        print("Please try again with a valid location!")
+        return None, None, None,None
+
+
+while True:
+    
+    menu = input( "\nType the number next you the respect action you want completed\n" + Fore.RED + "\n(1) Current Weather" + Fore.GREEN + "\n(2) 5-day Forecast" + Fore.MAGENTA + "\n(3) Help" + Fore.LIGHTYELLOW_EX + "\n(4) History" + Fore.BLUE + "\n(5) Exit \n ") # <-- get user input for menu
+
+    if menu == "1": # <-- check if user input is 1
+        # Get weather for a location
+        location = getLocation() #calls location function
+        current_temp, current_weather, forecast, humidity = get_weather(location) # <-- call get_weather function with location
+        #os.system("cls") # <-- clear terminal
+    elif menu == "2": # <-- check if user input is 2
+        location = getLocation() #calls location function
+        current_temp, current_weather, forecast,humidity = get_weather(location) # <-- call get_weather function with location
+        if (current_temp, current_weather, forecast, humidity) == (None, None, None, None): # <-- check if get_weather function returned None otherwise will continue code
+            continue
+        else:
+            five_day_forecast()
+    elif menu == "3": # <-- check if user input is 3
+        os.system("cls") # <-- clear terminal
+        print("This program will display the current weather and 5-day forecast for a location. Type the respective numbers next to the options to select them. If there are any letters in brackets, they are the options you can chose from. If you type an invalid input then the system will not accept the answer.") # <-- print help message 
+        continue # <-- continue program 
+    elif menu == "4": # <-- check if user input is 4
+        os.system("cls")
+        if History: # <-- check if history is not empty
+            print("History: \n")
+            for k, v in History.items(): # <-- loop through history dictionary
+                print(Fore.LIGHTCYAN_EX + f'{k}: ' + Fore.MAGENTA + f'{v[0]}°C, {v[1]}, {v[2]}% humidity') # <-- print location and current weather conditions
