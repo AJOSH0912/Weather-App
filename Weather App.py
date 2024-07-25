@@ -95,3 +95,46 @@ while True:
             print("History: \n")
             for k, v in History.items(): # <-- loop through history dictionary
                 print(Fore.LIGHTCYAN_EX + f'{k}: ' + Fore.MAGENTA + f'{v[0]}°C, {v[1]}, {v[2]}% humidity') # <-- print location and current weather conditions
+        else:
+            print("No history yet") # <-- print message if history is empty
+        continue
+    elif menu == "5": # <-- check if user input is 4
+        exit() # <-- exit program
+    else:
+        print("Invalid input")
+        continue
+
+
+
+    if (current_temp, current_weather, forecast, humidity) == (None, None, None, None): # <-- check if get_weather function returned 'None', which means the location entered does not exist. If the location is invalid, the user will be directed back to the menu, otherwise will continue code  
+        continue # <-- continue program
+
+    
+
+    decision = input( Fore.GREEN + "\nWould you like to see the current temperature and weather? (yes/no): ").lower()
+
+    if decision == "yes": # <-- ask user if they want to see the forecast
+        # Print current weather conditions
+        os.system("cls") # <-- clear terminal
+        print( Fore.LIGHTCYAN_EX + 'Current temperature in ' + Fore.YELLOW + f'{location}: {current_temp}') # <-- print current temperature
+        print(Fore.LIGHTCYAN_EX + 'Current weather in ' + Fore.YELLOW + f'{location}: {current_weather}') # <-- print current weather
+        print(Fore.LIGHTCYAN_EX + 'Humidity in ' + Fore.YELLOW + f'{location}: {humidity}%')
+        time.sleep(1) # <-- wait for 1 second
+    elif decision == "no":
+        os.system("cls") # <-- clear terminal
+        continue
+    else:
+        print("Invalid input")
+        continue
+    
+
+    futureforcast = input("\nWould you like to see the forcast for the next 5 days? (yes/no): ")  # <-- ask user if they want to see the forecast
+    if futureforcast.lower() == "no": # <-- check if user input is no
+        continue # <-- continue program
+    elif futureforcast.lower() == "yes":
+        os.system("cls")    # <-- clear terminal
+        five_day_forecast()
+        time.sleep(2)
+    else:
+        print("Invalid input")
+        continue
